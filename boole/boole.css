@@ -1,0 +1,14 @@
+table {
+    border: 2px solid black;
+    border-spacing: 20px;
+}
+
+th {
+    visibility: hidden;
+    font-family: "monospace";
+}
+
+td {
+    width: 80px;
+    text-align: center;
+}

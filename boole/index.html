@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>The periodic table of Boole</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="boole.css" />
+<script type="text/javascript" src="boole.js" defer></script>
+</head>
+<body>
+
+<table>
+<tr>
+<th id=0>false</th>
+<th id=1>a &amp;&amp; b</th>
+<th id=2>a &amp;&amp; !b</th>
+<th id=3>a</th>
+<th id=4>!a &amp;&amp; b</th>
+<th id=5>b</th>
+<th id=6>a != b</th>
+<th id=7>a || b</th>
+</tr>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<th id=15>true</th>
+<th id=14>!a || !b</th>
+<th id=13>!a || b</th>
+<th id=12>!a</th>
+<th id=11>a || !b</th>
+<th id=10>!b</th>
+<th id=9>a == b</th>
+<th id=8>!a &amp;&amp; !b</th>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</table>
+
+<p>Formula:
+<span id=tooltip>
+<input type="text" id="formula">
+</span>
+<button onclick="hideAll()">hide all</button>
+<button onclick="revealAll()">reveal all</button>
+</p>
+
+<p><textarea rows=12 cols=120>Here are some fun formulas to try:
+
+!(a &amp;&amp; b)
+(a || b) &amp;&amp; !(a &amp;&amp; b)
+a ? b : true
+</textarea></p>
+
+</body>
+</html>
