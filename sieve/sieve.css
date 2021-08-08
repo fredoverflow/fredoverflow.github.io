@@ -1,0 +1,19 @@
+table {
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid grey;
+    width: 2em;
+    text-align: center;
+}
+
+@keyframes clearing {
+    from { background-color: green; }
+    to   { background-color: lightgreen; }
+}
+
+@keyframes writing {
+    from { background-color: red; }
+    to   { background-color: lightsalmon; }
+}
