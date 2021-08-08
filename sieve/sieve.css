@@ -6,14 +6,10 @@ th, td {
     border: 1px solid grey;
     width: 2em;
     text-align: center;
-}
-
-@keyframes clearing {
-    from { background-color: green; }
-    to   { background-color: lightgreen; }
+    position: relative;
 }
 
 @keyframes writing {
-    from { background-color: red; }
-    to   { background-color: lightsalmon; }
+    from { background-color: green; }
+    to   { background-color: lightgreen; }
 }

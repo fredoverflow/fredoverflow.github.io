@@ -1,25 +1,40 @@
 const MAX_NUMBER = 25;
 const PRIMES = [2, 3, 5, 7, 11, 13, 17, 19, 23];
 
-const animationDuration = "1s";
-
-function clear(cell) {
-    cell.textContent = "";
-    cell.style.animationName = "clearing";
-    cell.style.animationDuration = animationDuration;
-}
+const DURATION_MS = 1000;
 
 function write(cell, textContent) {
     if (cell !== undefined) {
-        cell.textContent = textContent;
-        cell.style.animationName = "writing";
-        cell.style.animationDuration = animationDuration;
+        cell.style.animationName = undefined;
+        cell.style.animationDuration = undefined;
+        requestAnimationFrame(() => {
+            cell.textContent = textContent;
+            cell.style.animationName = "writing";
+            cell.style.animationDuration = DURATION_MS + "ms";
+        });
     }
+}
+
+function move(src, dst) {
+    write(dst, src.textContent);
+    src.textContent = "";
+
+    requestAnimationFrame((begin) => {
+        let left = src.offsetLeft - dst.offsetLeft;
+        function animate(time) {
+            const x = Math.max(0, (begin + DURATION_MS - time) / DURATION_MS);
+            dst.style.left = left * x + "px";
+            if (x > 0) {
+                requestAnimationFrame(animate);
+            }
+        }
+        animate(begin);
+    });
 }
 
 window.onload = function () {
     const row = document.getElementById("table-head-row");
-    
+
     let cell = document.createElement("th");
     row.appendChild(cell);
 
@@ -45,7 +60,7 @@ function addRow() {
     if (prime === undefined) return;
 
     const row = document.createElement("tr");
-            
+
     let cell = document.createElement("td");
     row.appendChild(cell);
 
@@ -98,8 +113,12 @@ function clickColumn(x) {
         for (let y = 0; y < rows.length; ++y) {
             const cells = rows[y].children;
             if (cells[x].textContent === "✗") {
-                clear(cells[x], "");
-                write(cells[x + PRIMES[y]], "✗");
+                const dst = cells[x + PRIMES[y]];
+                if (dst !== undefined) {
+                    move(cells[x], dst);
+                } else {
+                    write(cells[x], "");
+                }
             }
         }
     }
