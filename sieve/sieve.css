@@ -7,6 +7,11 @@ th, td {
     width: 2em;
     text-align: center;
     position: relative;
+    transition: left 1s;
+}
+
+td.sliding {
+    left: 0px !important;
 }
 
 @keyframes writing {

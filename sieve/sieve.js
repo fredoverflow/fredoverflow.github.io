@@ -1,35 +1,29 @@
 const MAX_NUMBER = 25;
 const PRIMES = [2, 3, 5, 7, 11, 13, 17, 19, 23];
 
-const DURATION_MS = 1000;
-
 function write(cell, textContent) {
-    if (cell !== undefined) {
-        cell.style.animationName = undefined;
-        cell.style.animationDuration = undefined;
-        requestAnimationFrame(() => {
-            cell.textContent = textContent;
-            cell.style.animationName = "writing";
-            cell.style.animationDuration = DURATION_MS + "ms";
-        });
-    }
+    if (cell === undefined) return;
+    
+    cell.style.animationName = undefined;
+    cell.style.animationDuration = undefined;
+    // CSS engine needs to apply above changes before starting animation, hence the timeout
+    setTimeout(() => {
+        cell.textContent = textContent;
+        cell.style.animationName = "writing";
+        cell.style.animationDuration = "1s";
+    }, 0);
 }
 
 function move(src, dst) {
     write(dst, src.textContent);
     src.textContent = "";
 
-    requestAnimationFrame((begin) => {
-        let left = src.offsetLeft - dst.offsetLeft;
-        function animate(time) {
-            const x = Math.max(0, (begin + DURATION_MS - time) / DURATION_MS);
-            dst.style.left = left * x + "px";
-            if (x > 0) {
-                requestAnimationFrame(animate);
-            }
-        }
-        animate(begin);
-    });
+    const left = src.offsetLeft - dst.offsetLeft;
+    dst.style.left = left + "px";
+    // CSS engine needs to apply above changes before starting transition, hence the timeout
+    setTimeout(() => {
+        dst.classList.add("sliding");
+    }, 0);
 }
 
 window.onload = function () {
