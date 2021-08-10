@@ -88,9 +88,14 @@ function clickRow(y) {
         }
         if (y === rows.length - 1) {
             addRow();
+            disableButtonInside(cells[1]);
         }
     }
 };
+
+function disableButtonInside(cell) {
+    cell.firstChild.disabled = true;
+}
 
 function clickColumn(x) {
     const rows = document.getElementById("table-body").children;
@@ -116,4 +121,6 @@ function clickColumn(x) {
             }
         }
     }
+    const row = document.getElementById("table-head-row");
+    disableButtonInside(row.children[x]);
 }
