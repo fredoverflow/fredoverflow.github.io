@@ -10,6 +10,38 @@ The Sieve of Eratosthenes
 </head>
 <body>
 
+<div style="display: inline-block; width: 50%;">
+<pre>
+/************ Eager, finite Sieve ************/
+
+int[] primes = primesUpTo(25);
+
+for (int prime : primes) {
+    System.out.println(prime);
+}
+
+// new boolean[25]
+//                  AND
+// new int[9]
+</pre>
+</div>
+
+<div style="display: inline-block;">
+<pre>
+/*********** Lazy, infinite Sieve ***********/
+
+Iterable&lt;Long&gt; primes = allPrimes();
+
+for (long prime : primes) {
+    System.out.println(prime);
+}
+
+// new       HashMap&lt;Number, List&lt;Prime&gt;&gt;
+//                                         OR
+// new PriorityQueue&lt;Pair&lt;Number, Prime&gt;&gt;
+</pre>
+</div>
+
 <table>
     <thead>
         <tr id="table-head-row" />
