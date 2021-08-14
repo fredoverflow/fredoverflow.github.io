@@ -27,6 +27,13 @@ function move(src, dst) {
     }, 0);
 }
 
+const startWithSquare = document.createElement('input');
+startWithSquare.type = "checkbox";
+
+function firstMultipleOf(prime) {
+    return startWithSquare.checked ? prime * prime : 2 * prime;
+}
+
 window.onload = function () {
     const row = document.getElementById("table-head-row");
 
@@ -34,6 +41,7 @@ window.onload = function () {
     row.appendChild(cell);
 
     cell = document.createElement("th");
+    cell.appendChild(startWithSquare);
     row.appendChild(cell);
 
     for (let x = 2; x <= MAX_NUMBER; ++x) {
@@ -79,7 +87,7 @@ function clickRow(y) {
     const prime = PRIMES[y];
 
     cells[prime].textContent = "" + prime;
-    for (let i = 2 * prime; i < cells.length; i += prime) {
+    for (let i = firstMultipleOf(prime); i < cells.length; i += prime) {
         write(cells[i], "✗", i * REVEAL_DELAY);
     }
     addRow();
@@ -100,7 +108,7 @@ function clickColumn(x) {
         }
         const cells = rows[y].children;
         cells[x].textContent = "" + x;
-        write(cells[2 * x], "✗");
+        write(cells[firstMultipleOf(x)], "✗");
     } else {
         for (let y = 0; y < rows.length; ++y) {
             const cells = rows[y].children;
