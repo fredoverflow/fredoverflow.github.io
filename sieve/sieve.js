@@ -1,7 +1,8 @@
 const MAX_NUMBER = 25;
 const PRIMES = [2, 3, 5, 7, 11, 13, 17, 19, 23];
+const REVEAL_DELAY = 20;
 
-function write(cell, textContent) {
+function write(cell, textContent, delay) {
     if (cell === undefined) return;
     
     cell.style.animationName = undefined;
@@ -11,7 +12,7 @@ function write(cell, textContent) {
         cell.textContent = textContent;
         cell.style.animationName = "writing";
         cell.style.animationDuration = "1s";
-    }, 0);
+    }, delay || 0);
 }
 
 function move(src, dst) {
@@ -77,20 +78,12 @@ function clickRow(y) {
     const cells = rows[y].children;
     const prime = PRIMES[y];
 
-    if (cells[prime].textContent === "") {
-        cells[prime].textContent = "" + prime;
-    } else {
-        for (let i = 2 * prime; i < cells.length; i += prime) {
-            if (cells[i].textContent === "") {
-                write(cells[i], "✗");
-                return;
-            }
-        }
-        if (y === rows.length - 1) {
-            addRow();
-            disableButtonInside(cells[1]);
-        }
+    cells[prime].textContent = "" + prime;
+    for (let i = 2 * prime; i < cells.length; i += prime) {
+        write(cells[i], "✗", i * REVEAL_DELAY);
     }
+    addRow();
+    disableButtonInside(cells[1]);
 };
 
 function disableButtonInside(cell) {
