@@ -20,9 +20,6 @@ for (int prime : primes) {
     System.out.println(prime);
 }
 
-// new boolean[25]
-//                  AND
-// new int[9]
 </pre>
 </div>
 
@@ -36,9 +33,6 @@ for (long prime : primes) {
     System.out.println(prime);
 }
 
-// new       HashMap&lt;Number, List&lt;Prime&gt;&gt;
-//                                         OR
-// new PriorityQueue&lt;Pair&lt;Number, Prime&gt;&gt;
 </pre>
 </div>
 
@@ -48,6 +42,28 @@ for (long prime : primes) {
     </thead>
     <tbody id="table-body" />
 </table>
+
+<div style="display: inline-block; width: 50%;">
+<pre>
+
+                boolean[] { false, false,
+TRUE,  TRUE,  false, TRUE,  false, TRUE,
+false, false, false, TRUE,  false, TRUE,
+false, false, false, TRUE,  false, TRUE,
+false, false, false, TRUE,  false, false }
+</pre>
+</div>
+
+<div style="display: inline-block;">
+<pre>
+
+HashMap: { 22=[11], 26=[13], 14=[2, 7], 15=[3, 5] }
+
+PriorityQueue:  (14,  2)
+     (15,  5)              (14,  7)              
+(22, 11)  (15,  3)    (26, 13)
+</pre>
+</div>
 
 </body>
 </html>
