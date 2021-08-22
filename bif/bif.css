@@ -1,0 +1,21 @@
+td {
+    text-align: center;
+}
+
+.noise {
+    color: grey;
+}
+
+.bit-on {
+    background: beige;
+    border-color: blanchedalmond;
+}
+
+.bit-off {
+    background: azure;
+    border-color: aliceblue;
+}
+
+li {
+    line-height: 2;
+}

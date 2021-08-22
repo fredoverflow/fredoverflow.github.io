@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>
+Binary Fractions
+</title>
+<link rel="stylesheet" type="text/css" href="bif.css" />
+<script src="bif.js"></script>
+</head>
+<body>
+
+<h2>Is computer math broken?</h2>
+<pre>
+   <u>JavaScript</u>                     <u>Clojure</u>                        <u>Python</u>                         <u>Go</u>
+🖮 0.1 + 0.2                      (+ 0.1 0.2)                    0.1 + 0.2                      float64(0.1) + float64(0.2)
+🖳 0.30000000000000004            0.30000000000000004            0.30000000000000004            0.30000000000000004
+🖳 "number"                       java.lang.Double               &lt;class 'float'&gt;                float64
+</pre>
+<div style="text-align: right; color: grey;">🤔 <i>What Every Computer Scientist Should Know About Floating Point</i> 😵 (44 pages)</div>
+
+<h2>4.12 fixed-point representation</h2>
+<div style="float: right;">
+  <input type="button" value="0" onclick="setNumber(0)">
+  <input type="button" value="-" onclick="decrement()">
+  <input type="button" value="random" onclick="setRandomNumber()">
+  <input type="button" value="+" onclick="increment()">
+  <input type="button" value="0.1" onclick="setNumber(0.1)">
+  <input type="button" value="0.2" onclick="setNumber(0.2)">
+  <input type="button" value="0.4" onclick="setNumber(0.4)">
+  <input type="button" value="0.8" onclick="setNumber(0.8)">
+  <input type="button" value="e" onclick="setNumber(Math.E)">
+  <input type="button" value="π" onclick="setNumber(Math.PI)">
+  <input type="button" value="9.81" onclick="setNumber(9.81)">
+</div>
+<table>
+  <tbody>
+    <tr>
+      <td></td>
+      <td></td>
+      <td class="digit"></td>
+      <td class="digit">0</td>
+      <td>.</td>
+      <td class="digit">0</td>
+      <td class="digit"></td>
+      <td class="digit"></td>
+      <td class="digit"></td>
+      <td class="digit noise"></td>
+      <td class="digit noise"></td>
+      <td class="digit noise"></td>
+      <td class="digit noise"></td>
+      <td class="digit noise"></td>
+      <td class="digit noise"></td>
+      <td class="digit noise"></td>
+      <td class="digit noise"></td>
+    </tr>
+    <tr>
+      <td><input type="button" class="bit bit-off" value="0" decimal="8" onclick="toggleBit(0)"></td>
+      <td><input type="button" class="bit bit-off" value="0" decimal="4" onclick="toggleBit(1)"></td>
+      <td><input type="button" class="bit bit-off" value="0" decimal="2" onclick="toggleBit(2)"></td>
+      <td><input type="button" class="bit bit-off" value="0" decimal="1" onclick="toggleBit(3)"></td>
+      <td>.</td>
+      <td><input type="button" class="bit bit-off" value="0" decimal="0.5" onclick="toggleBit(4)"></td>
+      <td><input type="button" class="bit bit-off" value="0" decimal="0.25" onclick="toggleBit(5)"></td>
+      <td><input type="button" class="bit bit-off" value="0" decimal="0.125" onclick="toggleBit(6)"></td>
+      <td><input type="button" class="bit bit-off" value="0" decimal="0.0625" onclick="toggleBit(7)"></td>
+      <td><input type="button" class="bit bit-off" value="0" decimal="0.03125" onclick="toggleBit(8)"></td>
+      <td><input type="button" class="bit bit-off" value="0" decimal="0.015625" onclick="toggleBit(9)"></td>
+      <td><input type="button" class="bit bit-off" value="0" decimal="0.0078125" onclick="toggleBit(10)"></td>
+      <td><input type="button" class="bit bit-off" value="0" decimal="0.00390625" onclick="toggleBit(11)"></td>
+      <td><input type="button" class="bit bit-off" value="0" decimal="0.001953125" onclick="toggleBit(12)"></td>
+      <td><input type="button" class="bit bit-off" value="0" decimal="0.0009765625" onclick="toggleBit(13)"></td>
+      <td><input type="button" class="bit bit-off" value="0" decimal="0.00048828125" onclick="toggleBit(14)"></td>
+      <td><input type="button" class="bit bit-off" value="0" decimal="0.000244140625" onclick="toggleBit(15)"></td>
+    </tr>
+    <tr><td>8</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td></td><td>4</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td></td><td></td><td>2</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td></td><td></td><td></td><td>1</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td></td><td></td><td></td><td></td><td>.</td><td>5</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td></td><td></td><td></td><td></td><td>.</td><td>2</td><td>5</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td></td><td></td><td></td><td></td><td>.</td><td>1</td><td>2</td><td>5</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td></td><td></td><td></td><td></td><td></td><td></td><td>6</td><td>2</td><td>5</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td></td><td></td><td></td><td></td><td></td><td></td><td>3</td><td>1</td><td>2</td><td>5</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td></td><td></td><td></td><td></td><td></td><td></td><td>1</td><td>5</td><td>6</td><td>2</td><td>5</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>7</td><td>8</td><td>1</td><td>2</td><td>5</td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>3</td><td>9</td><td>0</td><td>6</td><td>2</td><td>5</td><td></td><td></td><td></td><td></td></tr>
+    <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>1</td><td>9</td><td>5</td><td>3</td><td>1</td><td>2</td><td>5</td><td></td><td></td><td></td></tr>
+    <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>9</td><td>7</td><td>6</td><td>5</td><td>6</td><td>2</td><td>5</td><td></td><td></td></tr>
+    <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>4</td><td>8</td><td>8</td><td>2</td><td>8</td><td>1</td><td>2</td><td>5</td><td></td></tr>
+    <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>2</td><td>4</td><td>4</td><td>1</td><td>4</td><td>0</td><td>6</td><td>2</td><td>5</td></tr>
+  </tbody>
+</table>
+
+<h2>0.2 is provably infinite with period 4</h2>
+<pre>
+  ____
+0.0011 = 3/(16^1) + 3/(16^2) + 3/(16^3) + ... = 3/(16-1) = 3/15 = 1/5 = 0.2
+
+</pre>
+
+<h2>Digits</h2>
+Wikipedia: <i>A <b>digit</b> is one of several most distal parts of a limb, such as <b>finger</b>s or toes, present in many vertebrates.</i>
+<ul>
+  <li><b>Money</b> is a decimal invention: €0.50, €0.20, €0.10, €0.05, €0.02, €0.01, but <i>not</i> €0.142857...</li>
+  <li><b>Irrational</b> numbers must be approximated in <i>any</i> base: √2, φ, e, π, δ, sin/cos/tan...</li>
+</ul>
+
+</body>
+</html>
