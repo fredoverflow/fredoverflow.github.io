@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>
+IEEE 754
+</title>
+<link rel="stylesheet" type="text/css" href="ieee754.css" />
+<script src="ieee754.js"></script>
+</head>
+<body>
+
+<h2>IEEE 754 floating-point representation</h2>
+<div>
+  <input type="text"   value="0.75" id="ieee754input">
+  <input type="button" value="0.1" onclick="show754(0.1)">
+  <input type="button" value="0.2" onclick="show754(0.2)">
+  <input type="button" value="0.4" onclick="show754(0.4)">
+  <input type="button" value="0.8" onclick="show754(0.8)">
+  <input type="button" value="0.1 + 0.2" onclick="show754(0.1 + 0.2)">
+  <input type="button" value="0.3" onclick="show754(0.3)">
+  <input type="button" value="0.1 + 0.2 - 0.3" onclick="show754(0.1 + 0.2 - 0.3)">
+  <input type="button" value="e" onclick="show754(Math.E)">
+  <input type="button" value="π" onclick="show754(Math.PI)">
+  <input type="button" value="electron kg" onclick="show754(9.109383701528e-31)">
+  <input type="button" value="sun kg" onclick="show754(1.9885e30)">
+</div>
+<pre id="ieee754output">
+   2^-1 * +1.1000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000
+
+          +0.75
+</pre>
+
+</body>
+</html>
