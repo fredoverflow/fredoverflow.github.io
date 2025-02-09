@@ -1,33 +1,35 @@
 ////////////////////////////////////// ui //////////////////////////////////////
 
 document.getElementById("formula").oninput = function () {
-	try {
-		removeHighlight();
-		const fingerprint = parse(this.value);
-		const style = document.getElementById(fingerprint).style;
-		style.visibility = "visible";
-		style.backgroundColor = "palegreen";
-		document.getElementById("tooltip").title = "";
-	} catch (errorMessage) {
-		document.getElementById("tooltip").title = errorMessage;
-	}
+    try {
+        removeHighlight();
+        const fingerprint = parse(this.value);
+        const style = document.getElementById(fingerprint).style;
+        style.visibility = "visible";
+        style.backgroundColor = "palegreen";
+        document.getElementById("tooltip").title = "";
+    } catch (errorMessage) {
+        document.getElementById("tooltip").title = errorMessage;
+    }
 };
 
 function removeHighlight() {
-	changeTableHeaderStyle("backgroundColor", "");
+    changeTableHeaderStyle("backgroundColor", "");
 }
 
 function hideAll() {
-	changeTableHeaderStyle("visibility", "");
+    changeTableHeaderStyle("visibility", "");
 }
 
 function revealAll() {
-	changeTableHeaderStyle("visibility", "visible");
+    changeTableHeaderStyle("visibility", "visible");
 }
 
 function changeTableHeaderStyle(key, value) {
-	const headers = document.getElementsByTagName("th");
-	Array.prototype.forEach.call(headers, element => element.style[key] = value);
+    const headers = document.getElementsByTagName("th");
+    for (const header of headers) {
+        header.style[key] = value;
+    }
 }
 
 ////////////////////////////////// initialize //////////////////////////////////
@@ -35,30 +37,30 @@ function changeTableHeaderStyle(key, value) {
 const table = {};
 
 const missing = {
-	nud: () => { throw "missing input"; },
-	led: () => { throw "missing operator"; }
+    nud() { throw "missing input"; },
+    led() { throw "missing operator"; },
 };
 
-function token(symbol, precedence) {
-	const tok = Object.create(missing);
-	tok.symbol = symbol;
-	tok.precedence = precedence || 0;
-	table[symbol] = tok;
-	return tok;
+function token(symbol, precedence = 0) {
+    const tok = Object.create(missing);
+    tok.symbol = symbol;
+    tok.precedence = precedence;
+    table[symbol] = tok;
+    return tok;
 }
 
 function constant(symbol, value) {
-	token(symbol).nud = () => value;
+    token(symbol).nud = () => value;
 }
 
 function prefix(symbol, operation) {
-	token(symbol).nud = () => operation(expr(99));
+    token(symbol).nud = () => operation(expr(99));
 }
 
 function infix(symbol, precedence, operation) {
-	token(symbol, precedence).led = function (left) {
-		return operation(left, expr(this.precedence));
-	};
+    token(symbol, precedence).led = function (left) {
+        return operation(left, expr(this.precedence));
+    };
 }
 
 constant("a", 0b0011);
@@ -92,24 +94,24 @@ let tokens;
 let index;
 
 function parse(formula) {
-	const lexemes = formula.match(regex) || [];
-	tokens = lexemes.map(lexeme => table[lexeme]);
-	tokens.push(END);
-	index = 0;
-	return expr(0, "(end)");
+    const lexemes = formula.match(regex) ?? [];
+    tokens = lexemes.map(lexeme => table[lexeme]);
+    tokens.push(END);
+    index = 0;
+    return expr(0, "(end)");
 }
 
 function expect(expected) {
-	if (tokens[index++].symbol !== expected) throw `expected ${expected}`;
+    if (tokens[index++].symbol !== expected) throw `expected ${expected}`;
 }
 
 function expr(precedence, terminator) {
-	let temp = tokens[index++].nud();
-	while (tokens[index].precedence > precedence) {
-		temp = tokens[index++].led(temp);
-	}
-	if (terminator) {
-		expect(terminator);
-	}
-	return temp;
+    let temp = tokens[index++].nud();
+    while (tokens[index].precedence > precedence) {
+        temp = tokens[index++].led(temp);
+    }
+    if (terminator) {
+        expect(terminator);
+    }
+    return temp;
 }
