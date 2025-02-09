@@ -88,7 +88,7 @@ function draw() {
 
 let empty, beeper, horizontal, vertical, karels;
 
-window.onload = async function () {
+(async function () {
     const names = [
         "empty", "beeper",
         "horizontal", "vertical",
@@ -104,7 +104,7 @@ window.onload = async function () {
             undo();
         }
     };
-}
+})();
 
 let position = center(0, 0);
 let direction = 0;

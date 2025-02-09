@@ -79,7 +79,7 @@ function draw(position, direction) {
 
 let empty, beeper, horizontal, vertical, karels;
 
-window.onload = async function () {
+(async function () {
     const names = [
         "empty", "beeper",
         "horizontal", "vertical",
@@ -87,7 +87,7 @@ window.onload = async function () {
     ];
     [empty, beeper, horizontal, vertical, ...karels] = await loadImages(names);
     await generateMaze(center(0, 0), 0);
-}
+})();
 
 function loadImages(names) {
     const promises = names.map(name => loadImage(`tiles/${name}.png`));

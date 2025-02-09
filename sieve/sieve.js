@@ -34,26 +34,24 @@ function firstMultipleOf(prime) {
     return startWithSquare.checked ? prime * prime : 2 * prime;
 }
 
-window.onload = function () {
-    const row = document.getElementById("table-head-row");
+const row = document.getElementById("table-head-row");
 
-    let cell = document.createElement("th");
-    row.appendChild(cell);
+let cell = document.createElement("th");
+row.appendChild(cell);
 
+cell = document.createElement("th");
+cell.appendChild(startWithSquare);
+row.appendChild(cell);
+
+for (let x = 2; x <= MAX_NUMBER; ++x) {
     cell = document.createElement("th");
-    cell.appendChild(startWithSquare);
+    const button = document.createElement("button");
+    button.onclick = () => clickColumn(x);
+    button.textContent = "" + x;
+    cell.appendChild(button);
     row.appendChild(cell);
-
-    for (let x = 2; x <= MAX_NUMBER; ++x) {
-        cell = document.createElement("th");
-        const button = document.createElement("button");
-        button.onclick = () => clickColumn(x);
-        button.textContent = "" + x;
-        cell.appendChild(button);
-        row.appendChild(cell);
-    }
-    addRow();
-};
+}
+addRow();
 
 function addRow() {
     const tableBody = document.getElementById("table-body");

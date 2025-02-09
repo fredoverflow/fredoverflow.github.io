@@ -1,5 +1,12 @@
 const WIDTH = 1920, HEIGHT = 1080, DETAIL = 1024;
 
+const PALETTE = [
+    0x00421E0F, 0x0019071A, 0x0009012F, 0x00040449,
+    0x00000764, 0x000C2C8A, 0x001852B1, 0x00397DD1,
+    0x0086B5E5, 0x00D3ECF8, 0x00F1E9BF, 0x00F8C95F,
+    0x00FFAA00, 0x00CC8000, 0x00995700, 0x006A3403,
+];
+
 let topf = -1.0, left = -2.0, zoom = 1.0 / 512.0;
 
 function render() {
@@ -8,33 +15,31 @@ function render() {
     });
 }
 
-window.onload = function () {
-    const canvas = document.getElementById("canvas");
-    const context = canvas.getContext("2d", { alpha: false });
-    const row = context.createImageData(WIDTH, 1);
-    const data = row.data;
+const canvas = document.getElementById("canvas");
+const context = canvas.getContext("2d", { alpha: false });
+const row = context.createImageData(WIDTH, 1);
+const data = row.data;
 
-    async function compute() {
-        for (let y = 0; y < HEIGHT; ++y) {
-            const ci = y * zoom + topf;
+async function compute() {
+    for (let y = 0; y < HEIGHT; ++y) {
+        const ci = y * zoom + topf;
 
-            for (let x = 0, index = 0; x < WIDTH; ++x, index += 4) {
-                const cr = x * zoom + left;
+        for (let x = 0, index = 0; x < WIDTH; ++x, index += 4) {
+            const cr = x * zoom + left;
 
-                setColor(data, index, iterate(cr, ci));
-            }
-            context.putImageData(row, 0, y);
-            if (y % 16 === 15) {
-                await render();
-            }
+            setColor(data, index, iterate(cr, ci));
+        }
+        context.putImageData(row, 0, y);
+        if (y % 16 === 15) {
+            await render();
         }
     }
-    compute();
+}
+compute();
 
-    canvas.onclick = function (ev) {
-        (ev.shiftKey ? zoomOut2x : zoomIn4x)(ev.offsetX, ev.offsetY);
-        compute();
-    }
+canvas.onclick = function (ev) {
+    (ev.shiftKey ? zoomOut2x : zoomIn4x)(ev.offsetX, ev.offsetY);
+    compute();
 }
 
 function zoomIn4x(x, y) {
@@ -67,13 +72,6 @@ function iterate(cr, ci) {
     // paint The Mandelbrot Set black
     return 0x000000;
 }
-
-const PALETTE = [
-    0x00421E0F, 0x0019071A, 0x0009012F, 0x00040449,
-    0x00000764, 0x000C2C8A, 0x001852B1, 0x00397DD1,
-    0x0086B5E5, 0x00D3ECF8, 0x00F1E9BF, 0x00F8C95F,
-    0x00FFAA00, 0x00CC8000, 0x00995700, 0x006A3403,
-];
 
 function setColor(data, index, color) {
     data[index    ] =  color        & 255;

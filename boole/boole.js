@@ -1,19 +1,17 @@
 ////////////////////////////////////// ui //////////////////////////////////////
 
-window.onload = function () {
-	document.getElementById("formula").oninput = function () {
-		try {
-			removeHighlight();
-			const fingerprint = parse(this.value);
-			const style = document.getElementById(fingerprint).style;
-			style.visibility = "visible";
-			style.backgroundColor = "palegreen";
-			document.getElementById("tooltip").title = "";
-		} catch (errorMessage) {
-			document.getElementById("tooltip").title = errorMessage;
-		}
+document.getElementById("formula").oninput = function () {
+	try {
+		removeHighlight();
+		const fingerprint = parse(this.value);
+		const style = document.getElementById(fingerprint).style;
+		style.visibility = "visible";
+		style.backgroundColor = "palegreen";
+		document.getElementById("tooltip").title = "";
+	} catch (errorMessage) {
+		document.getElementById("tooltip").title = errorMessage;
 	}
-}
+};
 
 function removeHighlight() {
 	changeTableHeaderStyle("backgroundColor", "");

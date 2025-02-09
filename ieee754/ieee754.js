@@ -1,8 +1,6 @@
-window.onload = function () {
-    document.getElementById("ieee754input").oninput = function (event) {
-        const x = +event.target.value;
-        document.getElementById("ieee754output").innerText = ieee754(x);
-    };
+document.getElementById("ieee754input").oninput = function (event) {
+    const x = +event.target.value;
+    document.getElementById("ieee754output").innerText = ieee754(x);
 };
 
 function show754(x) {
@@ -65,7 +63,7 @@ Uint32Array.prototype.concat = function (element) {
     result.set(this);
     result[this.length] = element;
     return result;
-}
+};
 
 const POSITIVE_POWERS_OF_TWO = [];
 let positive = Uint32Array.of(1);
