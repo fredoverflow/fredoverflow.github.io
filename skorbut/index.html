@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Skorbut</title>
+
+<script src="https://cjrtnc.leaningtech.com/4.2/loader.js"></script>
+
+</head>
+<body style="margin: 0">
+<script>
+
+const searchParams = new URL(window.location.href).searchParams;
+
+(async function () {
+    // run skorbut.jar
+    await cheerpjInit({
+        // https://cheerpj.com/docs/reference/cheerpjInit#clipboardmode
+        clipboardMode: searchParams.get("clipboard") || "java",
+        // https://github.com/leaningtech/cheerpj-meta/issues/194
+        overrideShortcuts,
+    });
+    cheerpjCreateDisplay(window.screen.availWidth, window.screen.availHeight);
+    await cheerpjRunJar("/app/skorbut/skorbut.jar");
+
+    // dump skorbut.txt when Swing frame (NOT browser tab!) is closed
+    const blob = await cjFileBlob("/files/skorbut/skorbut.txt");
+    const text = await blob.text();
+    console.log(text);
+    await navigator.clipboard.writeText(text);
+})();
+
+function overrideShortcuts(event) {
+    switch (event.key) {
+        case "F1":
+        case "F2":
+        case "F3":
+        case "F4":
+        case "F5":
+        case "F6":
+        case "F7":
+        case "F8":
+        case "F9":
+        case "F10":
+        case "F11":
+        case "F12":
+            return true;
+
+        case "c":
+        case "x":
+        case "v":
+            return false;
+    }
+    return event.altKey || event.ctrlKey || event.metaKey;
+}
+
+</script>
+</body>
+</html>
